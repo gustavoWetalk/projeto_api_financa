@@ -3,7 +3,7 @@ import { app } from "./app";
 import { Server } from "socket.io";
 import { extractUserFromToken } from "./middlewares/JWTverifier";
 
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 8080;
 const httpServer = createServer(app);
 const io = new Server(httpServer, {
   cors: { origin: "*" },
