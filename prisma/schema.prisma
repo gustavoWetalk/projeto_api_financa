@@ -27,17 +27,17 @@ model investmentreturn {
   custo_total_periodo   Decimal?       @db.Decimal(20, 2)
   userinvestment        userinvestment @relation(fields: [user_investment_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "investmentreturn_ibfk_1")
 
-  @@unique([user_investment_id, data_referencia], name: "user_investment_id_data_referencia")
+  @@unique([user_investment_id, data_referencia])
   @@index([user_investment_id], map: "user_investment_id")
 }
 
 model portfolio {
-  id             Int               @id @default(autoincrement())
+  id             Int              @id @default(autoincrement())
   user_id        Int
-  nome_carteira  String            @db.VarChar(100)
-  data_criacao   DateTime          @default(now()) @db.DateTime(0)
-  icon           String?           @db.VarChar(255)  
-  user           user              @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "portfolio_ibfk_1")
+  nome_carteira  String           @db.VarChar(100)
+  data_criacao   DateTime         @default(now()) @db.DateTime(0)
+  icon           String?          @db.VarChar(255)
+  user           user             @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "portfolio_ibfk_1")
   userinvestment userinvestment[]
 
   @@index([user_id], map: "user_id")
