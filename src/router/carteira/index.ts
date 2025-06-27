@@ -53,3 +53,29 @@ routerCarteira.get("/list", validateJWT, async (req, res) => {
     res.status(500).json({ message: "Erro interno ao criar carteira" });
   }
 });
+
+routerCarteira.get("/pocket-information/:id", validateJWT, async (req, res) => {
+  const { id } = req.params;
+  const userData = await extractUserDataFromToken(req, res);
+  if (!userData || "status" in userData) return;
+
+  const pocketId = Number(id);
+  if (isNaN(pocketId)) {
+    res.status(400).json({ message: "ID inválido" });
+  }
+
+  try {
+    const pocket = await prisma.portfolio.findUnique({
+      where: { id: pocketId },
+    });
+
+    if (!pocket) {
+      res.status(404).json({ message: "Carteira não encontrada" });
+    }
+
+    res.status(200).json(pocket);
+  } catch (error) {
+    console.error("Erro ao buscar carteira:", error);
+    res.status(500).json({ message: "Erro interno ao buscar carteira" });
+  }
+});
